@@ -1,4 +1,5 @@
-import { puzzleVariables } from './puzzle_variables';
+import { puzzleVariables } from '../puzzle_variables';
+import { shufflePuzzle } from './shuffle_puzzle';
 
 export const createPieces = () => {
   let {
@@ -25,11 +26,11 @@ export const createPieces = () => {
     }
   }
   document.onload = shufflePuzzle;
-  // for (let idx1 = 0; idx1 <= canvas.width; idx1 = idx1 + 100) {
-  //   for (let idx2 = 0; idx2 < canvas.height; idx2 = idx2 + 100) {
-  //     let piece = ctx.drawImage(image, idx1, idx2, 100, 100, idx1, idx2, 100, 100);
-  //     pieces.push(piece);
-  //     console.log(piece);
-  //   }
-  // }
 };
+    // for (let idx1 = 0; idx1 <= canvas.width; idx1 = idx1 + 100) {
+    //   for (let idx2 = 0; idx2 < canvas.height; idx2 = idx2 + 100) {
+    //     let piece = ctx.drawImage(image, idx1, idx2, 100, 100, idx1, idx2, 100, 100);
+    //     pieces.push(piece);
+    //     console.log(piece);
+    //   }
+    // }

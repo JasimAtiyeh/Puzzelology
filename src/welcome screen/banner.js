@@ -1,8 +1,8 @@
 import { setDifficulty } from './set_difficulty';
 
-export const banner = (titleBanner, imageSelector, canvas) => {
+export const banner = (titleBanner, imageSelector, puzzle) => {
   let difficultyButtons = document.querySelectorAll('.difficulty-buttons');
   difficultyButtons.forEach(button => button.addEventListener('click', () => (
-    setDifficulty(button.textContent, titleBanner, imageSelector, canvas)
+    setDifficulty(button.textContent, titleBanner, imageSelector, puzzle)
   )));
 };

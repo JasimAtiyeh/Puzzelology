@@ -121,22 +121,16 @@ const Images = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_welcome_screen_banner__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./src/welcome screen/banner */ "./src/welcome screen/banner.js");
-/* harmony import */ var _src_image_selection_image_selection__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./src/image selection/image_selection */ "./src/image selection/image_selection.js");
-
 
 
 document.addEventListener("DOMContentLoaded", () => {
   const titleBanner = document.getElementById('selection-screen-title-banner');
   const imageSelector = document.getElementById("selection-screen-image-selection");
-  const canvas = document.getElementById('canvas');
   const puzzle = document.getElementById('puzzle');
   imageSelector.classList.add('hidden');
-  canvas.classList.add('hidden');
   puzzle.classList.add('hidden');
 
-  Object(_src_welcome_screen_banner__WEBPACK_IMPORTED_MODULE_0__["banner"])(titleBanner, imageSelector, canvas);
-  Object(_src_image_selection_image_selection__WEBPACK_IMPORTED_MODULE_1__["imageSelection"])(titleBanner, imageSelector, canvas);
-  
+  Object(_src_welcome_screen_banner__WEBPACK_IMPORTED_MODULE_0__["banner"])(titleBanner, imageSelector, puzzle);
 });
 
 
@@ -157,7 +151,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const imageSelection = (titleBanner, imageSelector, canvas) => {
+const imageSelection = (titleBanner, imageSelector, puzzle, difficulty) => {
   let images = Object.values(_assets_default_images__WEBPACK_IMPORTED_MODULE_0__["Images"]);
   let cancel = document.getElementById('cancel');
 
@@ -168,10 +162,8 @@ const imageSelection = (titleBanner, imageSelector, canvas) => {
     image.setAttribute('height', '120');
     image.addEventListener('click', (e) => {
       imageSelector.classList.add('hidden');
-      canvas.classList.remove('hidden');
-      Object(_puzzle_canvas_puzzle_canvas__WEBPACK_IMPORTED_MODULE_1__["puzzleCanvas"])(canvas, e.target.src);
-      // puzzle.setAttribute('src', e.target.src);
-      // puzzle.setAttribute('onload', 'snapfit.add(this), { mixed: true }');
+      puzzle.classList.remove('hidden');
+      Object(_puzzle_canvas_puzzle_canvas__WEBPACK_IMPORTED_MODULE_1__["puzzleCanvas"])(difficulty, e.target.src);
     });
     imageSelector.appendChild(image);
     image.before(cancel);
@@ -185,27 +177,6 @@ const imageSelection = (titleBanner, imageSelector, canvas) => {
 
 /***/ }),
 
-/***/ "./src/puzzle canvas/on_image.js":
-/*!***************************************!*\
-  !*** ./src/puzzle canvas/on_image.js ***!
-  \***************************************/
-/*! exports provided: onImage */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "onImage", function() { return onImage; });
-const onImage = (e) => {
-  pieceWidth = canvas.width / 100;
-  pieceHeight = canvas.height / 100;
-  puzzleWidth = pieceWidth * 100;
-  puzzleHeight = pieceHeight * 100;
-};
-
-
-
-/***/ }),
-
 /***/ "./src/puzzle canvas/puzzle_canvas.js":
 /*!********************************************!*\
   !*** ./src/puzzle canvas/puzzle_canvas.js ***!
@@ -216,15 +187,10 @@ const onImage = (e) => {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "puzzleCanvas", function() { return puzzleCanvas; });
-/* harmony import */ var _on_image__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./on_image */ "./src/puzzle canvas/on_image.js");
-
-
-const PUZZLE_DIFFICULTY = 4;
-const PUZZLE_HOVER_TINT = '#009900';
-
+let PUZZLE_DIFFICULTY = 10;
+let PUZZLE_HOVER_TINT = '#009900';
 let canvas;
-let stage;
-
+let ctx;
 let img;
 let pieces;
 let puzzleWidth;
@@ -233,28 +199,212 @@ let pieceWidth;
 let pieceHeight;
 let currentPiece;
 let currentDropPiece;
-
 let mouse;
 
-const puzzleCanvas = (canvas, imageSrc) => {
-  const ctx = canvas.getContext("2d");
-  let pieces = [];
+const puzzleCanvas = (difficulty, imageSrc) => {
+  img = new Image();
+  img.addEventListener('load', onImage, false);
+  img.setAttribute('width', '900');
+  img.setAttribute('height', '600');
+  img.src = imageSrc;
+  PUZZLE_DIFFICULTY = difficulty;
+};
 
-  function createPieces(image, canvas) {
-    for (let idx1 = 0; idx1 <= canvas.width; idx1 = idx1 + 100) {
-      for (let idx2 = 0; idx2 < canvas.height; idx2 = idx2 + 100) {
-        let piece = ctx.drawImage(image, idx1, idx2, 100, 100, idx1, idx2, 100, 100);
-        pieces.push(piece);
-        console.log(piece);
+const onImage = (e) => {
+  pieceWidth = Math.floor(img.width / PUZZLE_DIFFICULTY);
+  pieceHeight = Math.floor(img.height / PUZZLE_DIFFICULTY);
+  puzzleWidth = pieceWidth * PUZZLE_DIFFICULTY;
+  puzzleHeight = pieceHeight * PUZZLE_DIFFICULTY;
+  setCanvas();
+  initPuzzle();
+};
+
+const setCanvas = () => {
+  canvas = document.getElementById('canvas');
+  ctx = canvas.getContext('2d');
+  canvas.width = puzzleWidth;
+  canvas.height = puzzleHeight;
+  canvas.style.border = "1px solid black";
+}
+
+const initPuzzle = () => {
+  pieces = [];
+  mouse = { x:0, y:0 };
+  currentPiece = null;
+  currentDropPiece = null;
+  ctx.drawImage(img, 0, 0, puzzleWidth, puzzleHeight, 0, 0, puzzleWidth, puzzleHeight);
+  createTile("Click to start puzzle");
+  buildPieces();
+};
+
+const createTile = msg => {
+  ctx.fillStyle = "#000000";
+  ctx.globalAlpha = .4;
+  ctx.fillRect(100, puzzleHeight - 40, puzzleWidth - 200, 40);
+  ctx.fillStyle = "#FFFFFF";
+  ctx.globalAlpha = 1;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.font = "20px Arial";
+  ctx.fillText(msg, puzzleWidth / 2, puzzleHeight - 20);
+}
+
+const buildPieces = () => {
+  let piece;
+  let xPos = 0;
+  let yPos = 0;
+
+  for (let i = 0; i < PUZZLE_DIFFICULTY * PUZZLE_DIFFICULTY; i++) {
+    piece = {};
+    piece.sx = xPos;
+    piece.sy = yPos;
+    pieces.push(piece);
+    xPos += pieceWidth;
+    if (xPos >= puzzleWidth) {
+      xPos = 0;
+      yPos += pieceHeight;
+    }
+  }
+  document.onmousedown = shufflePuzzle;
+};
+
+const shufflePuzzle = () => {
+  let xPos = 0;
+  let yPos = 0;
+
+  pieces = shuffleArray(pieces);
+  ctx.clearRect(0, 0, puzzleWidth, puzzleHeight);
+
+  for (let i = 0; i < pieces.length; i++) {
+    let piece = pieces[i];
+    piece.xPos = xPos;
+    piece.yPos = yPos;
+    ctx.drawImage(img, piece.sx, piece.sy, pieceWidth, pieceHeight, xPos, yPos, pieceWidth, pieceHeight);
+    ctx.strokeRect(xPos, yPos, pieceWidth, pieceHeight);
+    xPos += pieceWidth;
+    if (xPos >= puzzleWidth) {
+      xPos = 0;
+      yPos += pieceHeight;
+    }
+  }
+  document.onmousedown = onPuzzleClick;
+  function shuffleArray(pieces) {
+    for (var j, x, i = pieces.length; i; j = parseInt(Math.random() * i), x = pieces[--i], pieces[i] = pieces[j], pieces[j] = x);
+    return pieces;
+  }
+};
+
+const onPuzzleClick = e => {
+  if (e.layerX || e.layerY === 0) {
+    mouse.x = e.layerX - canvas.offsetLeft;
+    mouse.y = e.layerY - canvas.offsetTop;
+  } else if (e.offsetX || e.offsetY === 0) {
+    mouse.x = e.offsetX - canvas.offsetLeft;
+    mouse.y = e.offsetY - canvas.offsetTop;
+  }
+
+  currentPiece = checkPieceClicked();
+  if (currentPiece !== null) {
+    ctx.clearRect(currentPiece.xPos, currentPiece.yPos, pieceWidth, pieceHeight);
+    ctx.save();
+    ctx.globalAlpha = .9;
+    ctx.drawImage(img, currentPiece.sx, currentPiece.sy, pieceWidth, pieceHeight, mouse.x - (pieceWidth / 2), mouse.y - (pieceHeight / 2), pieceWidth, pieceHeight);
+    ctx.restore();
+    document.onmousemove = updatePuzzle;
+    document.onmouseup = pieceDropped;
+  }
+};
+
+const checkPieceClicked = () => {
+  let piece;
+
+  for (let i = 0; i < pieces.length; i++) {
+    piece = pieces[i];
+    if ((mouse.x < piece.xPos) || (mouse.x > (piece.xPos + pieceWidth)) || (mouse.y < piece.yPos) || (mouse.y > (piece.yPos + pieceHeight))) {
+      continue;
+    } else {
+      return piece;
+    }
+  }
+  return null;
+};
+
+const updatePuzzle = (e) => {
+  currentDropPiece = null;
+  if (e.layerX || e.layerY === 0) {
+    mouse.x = e.layerX - canvas.offsetLeft;
+    mouse.y = e.layerY - canvas.offsetTop;
+  } else if (e.offsetX || e.offsetY === 0) {
+    mouse.x = e.offsetX - canvas.offsetLeft;
+    mouse.y = e.offsetY - canvas.offsetTop;
+  }
+  ctx.clearRect(0, 0, puzzleWidth, puzzleHeight);
+
+  let piece;
+  for (let i = 0; i < pieces.length; i++) {
+    piece = pieces[i];
+    if (piece === currentPiece) {
+      continue;
+    }
+    ctx.drawImage(img, piece.sx, piece.sy, pieceWidth, pieceHeight, piece.xPos, piece.yPos, pieceWidth, pieceHeight)
+    ctx.strokeRect(piece.xPos, piece.yPos, pieceWidth, pieceHeight);
+
+    if (currentDropPiece === null) {
+      if (mouse.x < piece.xPos || mouse.x > (piece.xPos + pieceWidth) || mouse.y < piece.yPos || mouse.y > (piece.yPos + pieceHeight)) {
+
+      } else {
+        currentDropPiece = piece;
+        ctx.save();
+        ctx.globalAlpha = 0.4;
+        ctx.fillStyle = PUZZLE_HOVER_TINT;
+        ctx.fillRect(currentDropPiece.xPos, currentDropPiece.yPos, pieceWidth, pieceHeight);
+        ctx.restore();
       }
     }
   }
+  ctx.save();
+  ctx.globalAlpha = 0.6;
+  ctx.drawImage(img, currentPiece.sx, currentPiece.sy, pieceWidth, pieceHeight, mouse.x - (pieceWidth / 2), mouse.y - (pieceHeight / 2), pieceWidth, pieceHeight);
+  ctx.restore();
+  ctx.strokeRect(mouse.x - (pieceWidth / 2), mouse.y - (pieceHeight / 2), pieceWidth, pieceHeight);
+};
 
-  const image = new Image();
-  image.src = imageSrc;
-  image.addEventListener('load', _on_image__WEBPACK_IMPORTED_MODULE_0__["onImage"], false);
-  // image.onload = createPieces(image, canvas);
-  console.log(pieces);
+const pieceDropped = e => {
+  document.onmousemove = null;
+  document.onmouseup = null;
+  if (currentDropPiece !== null) {
+    let tmp = { xPos: currentPiece.xPos, yPos: currentPiece.yPos };
+    currentPiece.xPos = currentDropPiece.xPos;
+    currentPiece.yPos = currentDropPiece.yPos;
+    currentDropPiece.xPos = tmp.xPos;
+    currentDropPiece.yPos = tmp.yPos;
+  }
+  resetPuzzleAndCheckWin();
+};
+
+const resetPuzzleAndCheckWin = () => {
+  ctx.clearRect(0, 0, puzzleWidth, puzzleHeight);
+
+  let gameWin = true;
+  let piece;
+  for (let i = 0; i < pieces.length; i++) {
+    piece = pieces[i];
+    ctx.drawImage(img, piece.sx, piece.sy, pieceWidth, pieceHeight, piece.xPos, piece.yPos, pieceWidth, pieceHeight);
+    ctx.strokeRect(piece.xPos, piece.yPos, pieceWidth, pieceHeight);
+    if (piece.xPos !== piece.sx || piece.yPos !== piece.sy) {
+      gameWin = false;
+    }
+  }
+  if (gameWin) {
+    setTimeout(gameOver, 500);
+  }
+};
+
+const gameOver = () => {
+  document.onmousedown = null;
+  document.onmousemove = null;
+  document.onmouseup = null;
+  initPuzzle();
 };
 
 /***/ }),
@@ -272,10 +422,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _set_difficulty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./set_difficulty */ "./src/welcome screen/set_difficulty.js");
 
 
-const banner = (titleBanner, imageSelector, canvas) => {
+const banner = (titleBanner, imageSelector, puzzle) => {
   let difficultyButtons = document.querySelectorAll('.difficulty-buttons');
   difficultyButtons.forEach(button => button.addEventListener('click', () => (
-    Object(_set_difficulty__WEBPACK_IMPORTED_MODULE_0__["setDifficulty"])(button.textContent, titleBanner, imageSelector, canvas)
+    Object(_set_difficulty__WEBPACK_IMPORTED_MODULE_0__["setDifficulty"])(button.textContent, titleBanner, imageSelector, puzzle)
   )));
 };
 
@@ -291,27 +441,21 @@ const banner = (titleBanner, imageSelector, canvas) => {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setDifficulty", function() { return setDifficulty; });
-const setDifficulty = (level, titleBanner, imageSelector, canvas) => {
-  let width;
-  let height;
+/* harmony import */ var _image_selection_image_selection__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../image selection/image_selection */ "./src/image selection/image_selection.js");
+
+
+const setDifficulty = (level, titleBanner, imageSelector, puzzle) => {
+  let difficulty;
   if (level === 'Easy') {
-    width = 700;
-    height = 500;
+    difficulty = 4;
   } else if (level === 'Medium') {
-    width = 900;
-    height = 600;
+    difficulty = 7;
   } else if (level === 'Hard') {
-    width = 1100;
-    height = 800;
+    difficulty = 10;
   }
   titleBanner.classList.add('hidden');
   imageSelector.classList.remove('hidden');
-
-  // puzzle.setAttribute('width', width);
-  // puzzle.setAttribute('height', height);
-
-  canvas.width = width;
-  canvas.height = height;
+  Object(_image_selection_image_selection__WEBPACK_IMPORTED_MODULE_0__["imageSelection"])(titleBanner, imageSelector, puzzle, difficulty);
 };
 
 /***/ })

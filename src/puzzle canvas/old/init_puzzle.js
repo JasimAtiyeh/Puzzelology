@@ -1,4 +1,4 @@
-import { buildPieces } from './buildPieces';
+import { createPieces } from './buildPieces';
 import { puzzleVariables } from './puzzle_variables';
 
 export const initPuzzle = () => {
@@ -7,5 +7,6 @@ export const initPuzzle = () => {
   mouse = { x:0, y:0 };
   currentPiece = null;
   currentDropPiece = null;
-  buildPieces();
+  createPieces();
 };
+

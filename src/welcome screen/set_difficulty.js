@@ -1,22 +1,15 @@
-export const setDifficulty = (level, titleBanner, imageSelector, canvas) => {
-  let width;
-  let height;
+import { imageSelection } from '../image selection/image_selection';
+
+export const setDifficulty = (level, titleBanner, imageSelector, puzzle) => {
+  let difficulty;
   if (level === 'Easy') {
-    width = 700;
-    height = 500;
+    difficulty = 4;
   } else if (level === 'Medium') {
-    width = 900;
-    height = 600;
+    difficulty = 7;
   } else if (level === 'Hard') {
-    width = 1100;
-    height = 800;
+    difficulty = 10;
   }
   titleBanner.classList.add('hidden');
   imageSelector.classList.remove('hidden');
-
-  // puzzle.setAttribute('width', width);
-  // puzzle.setAttribute('height', height);
-
-  canvas.width = width;
-  canvas.height = height;
+  imageSelection(titleBanner, imageSelector, puzzle, difficulty);
 };

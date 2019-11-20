@@ -1,5 +1,5 @@
 import { initPuzzle } from './init_puzzle';
-import { puzzleVariables } from './puzzle_variables';
+import { puzzleVariables } from '../puzzle_variables';
 
 export const onImage = (e) => {
   let { pieceWidth, pieceHeight, puzzleWidth, puzzleHeight } = puzzleVariables;

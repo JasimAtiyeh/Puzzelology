@@ -1,7 +1,7 @@
 import { Images } from '../../assets/default_images';
 import { puzzleCanvas } from '..//puzzle canvas/puzzle_canvas';
 
-export const imageSelection = (titleBanner, imageSelector, canvas) => {
+export const imageSelection = (titleBanner, imageSelector, puzzle, difficulty) => {
   let images = Object.values(Images);
   let cancel = document.getElementById('cancel');
 
@@ -12,10 +12,8 @@ export const imageSelection = (titleBanner, imageSelector, canvas) => {
     image.setAttribute('height', '120');
     image.addEventListener('click', (e) => {
       imageSelector.classList.add('hidden');
-      canvas.classList.remove('hidden');
-      puzzleCanvas(canvas, e.target.src);
-      // puzzle.setAttribute('src', e.target.src);
-      // puzzle.setAttribute('onload', 'snapfit.add(this), { mixed: true }');
+      puzzle.classList.remove('hidden');
+      puzzleCanvas(difficulty, e.target.src);
     });
     imageSelector.appendChild(image);
     image.before(cancel);
