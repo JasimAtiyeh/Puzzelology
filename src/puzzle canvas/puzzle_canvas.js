@@ -1,3 +1,5 @@
+import { init } from "../..";
+
 let PUZZLE_DIFFICULTY = 10;
 let PUZZLE_HOVER_TINT = '#009900';
 let canvas;
@@ -106,9 +108,9 @@ const shufflePuzzle = () => {
 };
 
 const onPuzzleClick = e => {
-  if (e.layerX || e.layerY === 0) {
-    mouse.x = e.layerX - canvas.offsetLeft;
-    mouse.y = e.layerY - canvas.offsetTop;
+  if (e.clientX || e.clientY === 0) {
+    mouse.x = e.clientX - canvas.offsetLeft;
+    mouse.y = e.clientY - canvas.offsetTop;
   } else if (e.offsetX || e.offsetY === 0) {
     mouse.x = e.offsetX - canvas.offsetLeft;
     mouse.y = e.offsetY - canvas.offsetTop;
@@ -142,9 +144,9 @@ const checkPieceClicked = () => {
 
 const updatePuzzle = (e) => {
   currentDropPiece = null;
-  if (e.layerX || e.layerY === 0) {
-    mouse.x = e.layerX - canvas.offsetLeft;
-    mouse.y = e.layerY - canvas.offsetTop;
+  if (e.clientX || e.clientY === 0) {
+    mouse.x = e.clientX - canvas.offsetLeft;
+    mouse.y = e.clientY - canvas.offsetTop;
   } else if (e.offsetX || e.offsetY === 0) {
     mouse.x = e.offsetX - canvas.offsetLeft;
     mouse.y = e.offsetY - canvas.offsetTop;
@@ -215,5 +217,5 @@ const gameOver = () => {
   document.onmousedown = null;
   document.onmousemove = null;
   document.onmouseup = null;
-  initPuzzle();
+  init();
 };

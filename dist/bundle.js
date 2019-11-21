@@ -115,24 +115,28 @@ const Images = {
 /*!******************!*\
   !*** ./index.js ***!
   \******************/
-/*! no exports provided */
+/*! exports provided: init */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "init", function() { return init; });
 /* harmony import */ var _src_welcome_screen_banner__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./src/welcome screen/banner */ "./src/welcome screen/banner.js");
 
 
-document.addEventListener("DOMContentLoaded", () => {
-  const titleBanner = document.getElementById('selection-screen-title-banner');
-  const imageSelector = document.getElementById("selection-screen-image-selection");
-  const puzzle = document.getElementById('puzzle');
-  imageSelector.classList.add('hidden');
-  puzzle.classList.add('hidden');
+const init = () => (
+  document.addEventListener("DOMContentLoaded", () => {
+    const titleBanner = document.getElementById('selection-screen-title-banner');
+    const imageSelector = document.getElementById("selection-screen-selection");
+    const puzzle = document.getElementById('puzzle');
+    imageSelector.classList.add('hidden');
+    puzzle.classList.add('hidden');
 
-  Object(_src_welcome_screen_banner__WEBPACK_IMPORTED_MODULE_0__["banner"])(titleBanner, imageSelector, puzzle);
-});
+    Object(_src_welcome_screen_banner__WEBPACK_IMPORTED_MODULE_0__["banner"])(titleBanner, imageSelector, puzzle);
+  })
+);
 
+document.addEventListener('onload', init());
 
 /***/ }),
 
@@ -153,25 +157,35 @@ __webpack_require__.r(__webpack_exports__);
 
 const imageSelection = (titleBanner, imageSelector, puzzle, difficulty) => {
   let images = Object.values(_assets_default_images__WEBPACK_IMPORTED_MODULE_0__["Images"]);
-  let cancel = document.getElementById('cancel');
+  let imageSelection = document.getElementById('selection-screen-image-selection');
+  let setDifficulty = document.getElementById('set-difficulty');
+  let uploadImage = document.getElementById('upload-image-input');
 
   images.map(imageLink => {
     let image = document.createElement('img');
     image.setAttribute('src', imageLink);
-    image.setAttribute('width', '170');
-    image.setAttribute('height', '120');
+    image.setAttribute('width', '250');
+    image.setAttribute('height', '200');
     image.addEventListener('click', (e) => {
       imageSelector.classList.add('hidden');
       puzzle.classList.remove('hidden');
       Object(_puzzle_canvas_puzzle_canvas__WEBPACK_IMPORTED_MODULE_1__["puzzleCanvas"])(difficulty, e.target.src);
     });
-    imageSelector.appendChild(image);
-    image.before(cancel);
+    imageSelection.appendChild(image);
   });
   
-  cancel.addEventListener('click', () => {
+  setDifficulty.addEventListener('click', () => {
     titleBanner.classList.remove('hidden');
     imageSelector.classList.add('hidden');
+  });
+
+  uploadImage.addEventListener('change', (e) => {
+    const input = e.target;
+    let src = window.URL.createObjectURL(input.files[0]);
+
+    imageSelector.classList.add('hidden');
+    puzzle.classList.remove('hidden');
+    Object(_puzzle_canvas_puzzle_canvas__WEBPACK_IMPORTED_MODULE_1__["puzzleCanvas"])(difficulty, src);
   });
 };
 
@@ -187,6 +201,9 @@ const imageSelection = (titleBanner, imageSelector, puzzle, difficulty) => {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "puzzleCanvas", function() { return puzzleCanvas; });
+/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../.. */ "./index.js");
+
+
 let PUZZLE_DIFFICULTY = 10;
 let PUZZLE_HOVER_TINT = '#009900';
 let canvas;
@@ -295,9 +312,9 @@ const shufflePuzzle = () => {
 };
 
 const onPuzzleClick = e => {
-  if (e.layerX || e.layerY === 0) {
-    mouse.x = e.layerX - canvas.offsetLeft;
-    mouse.y = e.layerY - canvas.offsetTop;
+  if (e.clientX || e.clientY === 0) {
+    mouse.x = e.clientX - canvas.offsetLeft;
+    mouse.y = e.clientY - canvas.offsetTop;
   } else if (e.offsetX || e.offsetY === 0) {
     mouse.x = e.offsetX - canvas.offsetLeft;
     mouse.y = e.offsetY - canvas.offsetTop;
@@ -331,9 +348,9 @@ const checkPieceClicked = () => {
 
 const updatePuzzle = (e) => {
   currentDropPiece = null;
-  if (e.layerX || e.layerY === 0) {
-    mouse.x = e.layerX - canvas.offsetLeft;
-    mouse.y = e.layerY - canvas.offsetTop;
+  if (e.clientX || e.clientY === 0) {
+    mouse.x = e.clientX - canvas.offsetLeft;
+    mouse.y = e.clientY - canvas.offsetTop;
   } else if (e.offsetX || e.offsetY === 0) {
     mouse.x = e.offsetX - canvas.offsetLeft;
     mouse.y = e.offsetY - canvas.offsetTop;
@@ -404,7 +421,7 @@ const gameOver = () => {
   document.onmousedown = null;
   document.onmousemove = null;
   document.onmouseup = null;
-  initPuzzle();
+  Object(___WEBPACK_IMPORTED_MODULE_0__["init"])();
 };
 
 /***/ }),

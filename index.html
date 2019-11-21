@@ -8,19 +8,30 @@
     <script type="application/javascript" src="./dist/bundle.js"></script>
     <div class="selection-screen">
       <div id="selection-screen-title-banner">
-        <h1>Puzzleology</h1>
+        <img src="./assets/aefa684f-0000-496a-b2c9-67ff56ba9b50_200x200.png" alt="Puzzleology">
         <div class="selection-screen-title-banner-difficulty">
           <button class="difficulty-buttons">Easy</button>
           <button class="difficulty-buttons">Medium</button>
           <button class="difficulty-buttons">Hard</button>
         </div>
       </div>
-      <div id="selection-screen-image-selection">
-        <button id="cancel">Cancel</button>
+      <div id="selection-screen-selection">
+        <div id="selection-screen-selection-title">
+          Select an Image to Start
+        </div>
+        <div id="selection-screen-image-selection">
+        </div>
+        <div id="image-selection-buttons">
+          <button id="set-difficulty">Set Difficulty</button>
+          <!-- <button id="upload-image">Upload Image</button> -->
+          <label id="upload-image"> Upload Image
+            <input type="file" id="upload-image-input" accept="image/png, image/jpeg">
+          </label>
+        </div>
       </div>
-    </div>
-    <div id="puzzle">
-      <canvas id="canvas">Canvas</canvas>
+      <div id="puzzle">
+        <canvas id="canvas">Canvas</canvas>
+      </div>
     </div>
   </body>
 </html>
