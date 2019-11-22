@@ -1,6 +1,6 @@
 import { init } from "../..";
 
-let PUZZLE_DIFFICULTY = 10;
+let PUZZLE_DIFFICULTY;
 let PUZZLE_HOVER_TINT = '#009900';
 let canvas;
 let ctx;
@@ -15,6 +15,8 @@ let currentDropPiece;
 let mouse;
 
 export const puzzleCanvas = (difficulty, imageSrc) => {
+  let audio = document.getElementById('audio');
+  audio.muted = false;
   img = new Image();
   img.addEventListener('load', onImage, false);
   img.setAttribute('width', '900');
@@ -24,8 +26,8 @@ export const puzzleCanvas = (difficulty, imageSrc) => {
 };
 
 const onImage = (e) => {
-  pieceWidth = Math.floor(img.width / PUZZLE_DIFFICULTY);
-  pieceHeight = Math.floor(img.height / PUZZLE_DIFFICULTY);
+  pieceWidth = img.width / PUZZLE_DIFFICULTY;
+  pieceHeight = img.height / PUZZLE_DIFFICULTY;
   puzzleWidth = pieceWidth * PUZZLE_DIFFICULTY;
   puzzleHeight = pieceHeight * PUZZLE_DIFFICULTY;
   setCanvas();
@@ -35,17 +37,18 @@ const onImage = (e) => {
 const setCanvas = () => {
   canvas = document.getElementById('canvas');
   ctx = canvas.getContext('2d');
+  canvas.style.backgroundSize = 'cover';
   canvas.width = puzzleWidth;
   canvas.height = puzzleHeight;
-  canvas.style.border = "1px solid black";
-}
+  canvas.style.border = "1px solid #16619f";
+};
 
-const initPuzzle = () => {
+export const initPuzzle = () => {
   pieces = [];
   mouse = { x:0, y:0 };
   currentPiece = null;
   currentDropPiece = null;
-  ctx.drawImage(img, 0, 0, puzzleWidth, puzzleHeight, 0, 0, puzzleWidth, puzzleHeight);
+  ctx.drawImage(img, 0, 0, puzzleWidth, puzzleHeight);
   createTile("Click to start puzzle");
   buildPieces();
 };
@@ -60,7 +63,7 @@ const createTile = msg => {
   ctx.textBaseline = "middle";
   ctx.font = "20px Arial";
   ctx.fillText(msg, puzzleWidth / 2, puzzleHeight - 20);
-}
+};
 
 const buildPieces = () => {
   let piece;
@@ -217,5 +220,5 @@ const gameOver = () => {
   document.onmousedown = null;
   document.onmousemove = null;
   document.onmouseup = null;
-  init();
+  initPuzzle();
 };

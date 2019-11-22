@@ -86,31 +86,6 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./assets/default_images.js":
-/*!**********************************!*\
-  !*** ./assets/default_images.js ***!
-  \**********************************/
-/*! exports provided: Images */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Images", function() { return Images; });
-const Images = {
-  image1: 'https://www.montereyairport.com/sites/main/files/imagecache/hd/main-images/camera_lense_0.jpeg',
-  image2: 'http://hdwpro.com/wp-content/uploads/2015/12/Widescreen-Image.jpg',
-  image3: 'https://www.aussiespecialist.com/content/asp/en/sales-resources/image-and-video-galleries/_jcr_content/mainParsys/hero/image.adapt.1663.medium.jpg',
-  image4: 'https://cdn.vox-cdn.com/thumbor/XKPu8Ylce2Cq6yi_pgyLyw80vb4=/0x0:1920x1080/1200x800/filters:focal(807x387:1113x693)/cdn.vox-cdn.com/uploads/chorus_image/image/63380914/PIA16695_large.0.jpg',
-  image5: 'https://i.all3dp.com/cdn-cgi/image/fit=cover,w=1284,h=722,gravity=0.5x0.5,format=auto/wp-content/uploads/2018/12/28144052/background-images-can-come-in-handy-when-modeling-tian-ooi-all3dp-181228.jpg',
-  image6: 'https://cdn.bitdegree.org/learn/pexels-photo-920220.jpeg?4d5e638c',
-  image7: 'http://i.imgur.com/RRUe0Mo.png',
-  image8: 'https://scipy-lectures.org/_images/face.png',
-  image9: 'https://ansunibaate.com/wp-content/uploads/2018/07/butterfly-image-wallpaper-d.jpg',
-  image10: 'https://upload.wikimedia.org/wikipedia/commons/a/aa/Polarlicht_2.jpg'
-};
-
-/***/ }),
-
 /***/ "./index.js":
 /*!******************!*\
   !*** ./index.js ***!
@@ -122,6 +97,8 @@ const Images = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "init", function() { return init; });
 /* harmony import */ var _src_welcome_screen_banner__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./src/welcome screen/banner */ "./src/welcome screen/banner.js");
+/* harmony import */ var _src_puzzle_canvas_toggle_settings_menu__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./src/puzzle canvas/toggle_settings_menu */ "./src/puzzle canvas/toggle_settings_menu.js");
+
 
 
 const init = () => (
@@ -129,10 +106,27 @@ const init = () => (
     const titleBanner = document.getElementById('selection-screen-title-banner');
     const imageSelector = document.getElementById("selection-screen-selection");
     const puzzle = document.getElementById('puzzle');
+    const settings = document.getElementById('settings');
+    const settingsMenu = document.getElementById('settings-menu');
+    const clock = document.getElementById('clock');
+
     imageSelector.classList.add('hidden');
     puzzle.classList.add('hidden');
+    settingsMenu.classList.add('hidden');
 
     Object(_src_welcome_screen_banner__WEBPACK_IMPORTED_MODULE_0__["banner"])(titleBanner, imageSelector, puzzle);
+    settings.addEventListener('click', () => Object(_src_puzzle_canvas_toggle_settings_menu__WEBPACK_IMPORTED_MODULE_1__["toggleSettingsMenu"])(
+      settingsMenu,
+      titleBanner,
+      puzzle,
+      imageSelector
+    ));
+
+    let time;
+    setTimeout(() => {
+      time += 1;
+      clock.innerHTML = time;
+    }, 1000);
   })
 );
 
@@ -144,19 +138,18 @@ document.addEventListener('onload', init());
 /*!************************************************!*\
   !*** ./src/image selection/image_selection.js ***!
   \************************************************/
-/*! exports provided: imageSelection */
+/*! exports provided: imageSelection, Images */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "imageSelection", function() { return imageSelection; });
-/* harmony import */ var _assets_default_images__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../assets/default_images */ "./assets/default_images.js");
-/* harmony import */ var _puzzle_canvas_puzzle_canvas__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ..//puzzle canvas/puzzle_canvas */ "./src/puzzle canvas/puzzle_canvas.js");
-
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Images", function() { return Images; });
+/* harmony import */ var _puzzle_canvas_puzzle_canvas__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ..//puzzle canvas/puzzle_canvas */ "./src/puzzle canvas/puzzle_canvas.js");
 
 
 const imageSelection = (titleBanner, imageSelector, puzzle, difficulty) => {
-  let images = Object.values(_assets_default_images__WEBPACK_IMPORTED_MODULE_0__["Images"]);
+  let images = Object.values(Images);
   let imageSelection = document.getElementById('selection-screen-image-selection');
   let setDifficulty = document.getElementById('set-difficulty');
   let uploadImage = document.getElementById('upload-image-input');
@@ -169,7 +162,7 @@ const imageSelection = (titleBanner, imageSelector, puzzle, difficulty) => {
     image.addEventListener('click', (e) => {
       imageSelector.classList.add('hidden');
       puzzle.classList.remove('hidden');
-      Object(_puzzle_canvas_puzzle_canvas__WEBPACK_IMPORTED_MODULE_1__["puzzleCanvas"])(difficulty, e.target.src);
+      Object(_puzzle_canvas_puzzle_canvas__WEBPACK_IMPORTED_MODULE_0__["puzzleCanvas"])(difficulty, e.target.src);
     });
     imageSelection.appendChild(image);
   });
@@ -185,8 +178,21 @@ const imageSelection = (titleBanner, imageSelector, puzzle, difficulty) => {
 
     imageSelector.classList.add('hidden');
     puzzle.classList.remove('hidden');
-    Object(_puzzle_canvas_puzzle_canvas__WEBPACK_IMPORTED_MODULE_1__["puzzleCanvas"])(difficulty, src);
+    Object(_puzzle_canvas_puzzle_canvas__WEBPACK_IMPORTED_MODULE_0__["puzzleCanvas"])(difficulty, src);
   });
+};
+
+const Images = {
+  image1: '../../assets/images/111919_Events-900x600.jpg',
+  image2: '../../assets/images/5718269042_8b2181bed8_o-900x600.png',
+  image3: '../../assets/images/A2_SigmaPhiEpsilon-900x600.jpg',
+  image4: '../../assets/images/bahia-de-las-aguilas-pedernales-900x600.jpg',
+  image5: '../../assets/images/heidi-kaden-n7NwHLauoJ0-unsplash-900x600.jpg',
+  image6: '../../assets/images/KIlworth-House-Hotel_0003-3-900x600.jpeg',
+  image7: '../../assets/images/KIlworth-House-Hotel_0003-3-900x600.jpg',
+  image8: '../../assets/images/march_moon.900x600.jpg',
+  image9: '../../assets/images/spice-of-life-900x600.jpg',
+  image10: '../../assets/images/Wayne_campus_scienglib_900x600.jpg'
 };
 
 /***/ }),
@@ -195,16 +201,17 @@ const imageSelection = (titleBanner, imageSelector, puzzle, difficulty) => {
 /*!********************************************!*\
   !*** ./src/puzzle canvas/puzzle_canvas.js ***!
   \********************************************/
-/*! exports provided: puzzleCanvas */
+/*! exports provided: puzzleCanvas, initPuzzle */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "puzzleCanvas", function() { return puzzleCanvas; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initPuzzle", function() { return initPuzzle; });
 /* harmony import */ var ___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../.. */ "./index.js");
 
 
-let PUZZLE_DIFFICULTY = 10;
+let PUZZLE_DIFFICULTY;
 let PUZZLE_HOVER_TINT = '#009900';
 let canvas;
 let ctx;
@@ -219,6 +226,8 @@ let currentDropPiece;
 let mouse;
 
 const puzzleCanvas = (difficulty, imageSrc) => {
+  let audio = document.getElementById('audio');
+  audio.muted = false;
   img = new Image();
   img.addEventListener('load', onImage, false);
   img.setAttribute('width', '900');
@@ -228,8 +237,8 @@ const puzzleCanvas = (difficulty, imageSrc) => {
 };
 
 const onImage = (e) => {
-  pieceWidth = Math.floor(img.width / PUZZLE_DIFFICULTY);
-  pieceHeight = Math.floor(img.height / PUZZLE_DIFFICULTY);
+  pieceWidth = img.width / PUZZLE_DIFFICULTY;
+  pieceHeight = img.height / PUZZLE_DIFFICULTY;
   puzzleWidth = pieceWidth * PUZZLE_DIFFICULTY;
   puzzleHeight = pieceHeight * PUZZLE_DIFFICULTY;
   setCanvas();
@@ -239,17 +248,18 @@ const onImage = (e) => {
 const setCanvas = () => {
   canvas = document.getElementById('canvas');
   ctx = canvas.getContext('2d');
+  canvas.style.backgroundSize = 'cover';
   canvas.width = puzzleWidth;
   canvas.height = puzzleHeight;
-  canvas.style.border = "1px solid black";
-}
+  canvas.style.border = "1px solid #16619f";
+};
 
 const initPuzzle = () => {
   pieces = [];
   mouse = { x:0, y:0 };
   currentPiece = null;
   currentDropPiece = null;
-  ctx.drawImage(img, 0, 0, puzzleWidth, puzzleHeight, 0, 0, puzzleWidth, puzzleHeight);
+  ctx.drawImage(img, 0, 0, puzzleWidth, puzzleHeight);
   createTile("Click to start puzzle");
   buildPieces();
 };
@@ -264,7 +274,7 @@ const createTile = msg => {
   ctx.textBaseline = "middle";
   ctx.font = "20px Arial";
   ctx.fillText(msg, puzzleWidth / 2, puzzleHeight - 20);
-}
+};
 
 const buildPieces = () => {
   let piece;
@@ -421,7 +431,68 @@ const gameOver = () => {
   document.onmousedown = null;
   document.onmousemove = null;
   document.onmouseup = null;
-  Object(___WEBPACK_IMPORTED_MODULE_0__["init"])();
+  initPuzzle();
+};
+
+/***/ }),
+
+/***/ "./src/puzzle canvas/toggle_settings_menu.js":
+/*!***************************************************!*\
+  !*** ./src/puzzle canvas/toggle_settings_menu.js ***!
+  \***************************************************/
+/*! exports provided: toggleSettingsMenu */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toggleSettingsMenu", function() { return toggleSettingsMenu; });
+/* harmony import */ var _puzzle_canvas__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./puzzle_canvas */ "./src/puzzle canvas/puzzle_canvas.js");
+
+
+const toggleSettingsMenu = (
+  settingsMenu,
+  titleBanner,
+  puzzle,
+  imageSelector
+  ) => {
+  settingsMenu.classList.toggle('hidden');
+  let mute = document.getElementById('mute');
+  let notMute = document.getElementById('not-mute');
+  let setDifficulty = document.getElementById('set-difficulty-button');
+  let selectImage = document.getElementById('select-image');
+  let restartPuzzle = document.getElementById('restart-puzzle');
+  let audio = document.getElementById('audio');
+
+  notMute.addEventListener('click', () => {
+    audio.muted = true;
+    notMute.classList.add('hidden');
+    mute.classList.remove('hidden');
+  });
+
+  mute.addEventListener('click', () => {
+    audio.muted = false;
+    notMute.classList.remove('hidden');
+    mute.classList.add('hidden');
+  });
+
+  setDifficulty.addEventListener('click', () => {
+    titleBanner.classList.remove('hidden');
+    puzzle.classList.add('hidden');
+    settingsMenu.classList.add('hidden');
+    audio.muted = true;
+  });
+  
+  selectImage.addEventListener('click', () => {
+    imageSelector.classList.remove('hidden');
+    puzzle.classList.add('hidden');
+    settingsMenu.classList.add('hidden');
+    audio.muted = true;
+  });
+  
+  restartPuzzle.addEventListener('click', () => {
+    Object(_puzzle_canvas__WEBPACK_IMPORTED_MODULE_0__["initPuzzle"])();
+    settingsMenu.classList.add('hidden');
+  });
 };
 
 /***/ }),

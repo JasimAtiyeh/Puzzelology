@@ -1,4 +1,3 @@
-import { Images } from '../../assets/default_images';
 import { puzzleCanvas } from '..//puzzle canvas/puzzle_canvas';
 
 export const imageSelection = (titleBanner, imageSelector, puzzle, difficulty) => {
@@ -33,4 +32,17 @@ export const imageSelection = (titleBanner, imageSelector, puzzle, difficulty) =
     puzzle.classList.remove('hidden');
     puzzleCanvas(difficulty, src);
   });
+};
+
+export const Images = {
+  image1: '../../assets/images/111919_Events-900x600.jpg',
+  image2: '../../assets/images/5718269042_8b2181bed8_o-900x600.png',
+  image3: '../../assets/images/A2_SigmaPhiEpsilon-900x600.jpg',
+  image4: '../../assets/images/bahia-de-las-aguilas-pedernales-900x600.jpg',
+  image5: '../../assets/images/heidi-kaden-n7NwHLauoJ0-unsplash-900x600.jpg',
+  image6: '../../assets/images/KIlworth-House-Hotel_0003-3-900x600.jpeg',
+  image7: '../../assets/images/KIlworth-House-Hotel_0003-3-900x600.jpg',
+  image8: '../../assets/images/march_moon.900x600.jpg',
+  image9: '../../assets/images/spice-of-life-900x600.jpg',
+  image10: '../../assets/images/Wayne_campus_scienglib_900x600.jpg'
 };

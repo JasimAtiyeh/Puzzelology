@@ -2,10 +2,12 @@
   <head>
     <title>Puzzleology</title>
     <link rel="stylesheet" href="./assets/stylesheets/main.scss">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   </head>
 
   <body>
     <script type="application/javascript" src="./dist/bundle.js"></script>
+    <div id="clock"></div>
     <div class="selection-screen">
       <div id="selection-screen-title-banner">
         <img src="./assets/aefa684f-0000-496a-b2c9-67ff56ba9b50_200x200.png" alt="Puzzleology">
@@ -30,7 +32,19 @@
         </div>
       </div>
       <div id="puzzle">
+        <audio id="audio"
+          src="./assets/audio_track.mp3"
+          autoplay loop muted>
+        </audio>
         <canvas id="canvas">Canvas</canvas>
+        <i id="settings" class="material-icons">settings</i>
+        <div id="settings-menu">
+          <i id="mute" class="material-icons hidden">volume_off</i>
+          <i id="not-mute" class="material-icons">volume_up</i>
+          <button id="set-difficulty-button" class="settings-buttons">Set Difficulty</button>
+          <button id="select-image" class="settings-buttons">Select Image</button>
+          <button id="restart-puzzle" class="settings-buttons">Restart Puzzle</button>
+        </div>
       </div>
     </div>
   </body>
