@@ -1,5 +1,5 @@
 node_modules
-dist
+/dist
 webpack.config.js
 .firebaserc
 firebase.json
