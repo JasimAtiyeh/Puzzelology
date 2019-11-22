@@ -9,7 +9,7 @@ body {
 .selection-screen {
   display: flex;
   justify-content: center;
-  margin-top: 100px;
+  margin-top: 50px;
   height: 750px;
   background-color: rgba(60, 60, 60, 0.5);
 }
@@ -113,7 +113,7 @@ body {
 }
 
 #puzzle {
-  align-self: center;
+  margin-top: 80px;
 }
 
 #canvas {
@@ -121,22 +121,23 @@ body {
 }
 
 #settings {
-  left: 130px;
-  top: -620px;
+  left: 70px;
+  top: -600px;
   position: relative;
   font-size: 45px !important;
   color: #e78200;
 }
 
 #settings-menu {
-  position: fixed;
-  top: 200px;
-  right: 470px;
+  position: relative;
+  top: -570px;
+  right: -260px;
   display: flex;
   flex-direction: column;
   background-color: rgba(155, 155, 155, 0.7);
   padding: 85px;
   z-index: 10000;
+  max-width: 210px;
 }
 
 #mute {
@@ -165,7 +166,7 @@ body {
 
 .settings-buttons {
   padding: 20px 10px;
-  margin: 20px 30px;
+  margin: 20px auto;
   width: 150px;
   font-size: 18px;
   font-weight: 600;
