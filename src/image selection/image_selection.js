@@ -35,7 +35,7 @@ export const imageSelection = (titleBanner, imageSelector, puzzle, difficulty) =
 };
 
 export const Images = {
-  image1: 'https://puzzleology.s3.us-east-2.amazonaws.com/A2_SigmaPhiEpsilon-900x600.jpg',
+  image1: 'https://puzzleology.s3.us-east-2.amazonaws.com/111919_Events-900x600.jpg',
   image2: 'https://puzzleology.s3.us-east-2.amazonaws.com/5718269042_8b2181bed8_o-900x600.png',
   image3: 'https://puzzleology.s3.us-east-2.amazonaws.com/A2_SigmaPhiEpsilon-900x600.jpg',
   image4: 'https://puzzleology.s3.us-east-2.amazonaws.com/KIlworth-House-Hotel_0003-3-900x600.jpeg',
