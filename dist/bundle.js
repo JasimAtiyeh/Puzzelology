@@ -237,8 +237,8 @@ const puzzleCanvas = (difficulty, imageSrc) => {
 };
 
 const onImage = (e) => {
-  pieceWidth = img.width / PUZZLE_DIFFICULTY;
-  pieceHeight = img.height / PUZZLE_DIFFICULTY;
+  pieceWidth = Math.floor(img.width / PUZZLE_DIFFICULTY);
+  pieceHeight = Math.floor(img.height / PUZZLE_DIFFICULTY);
   puzzleWidth = pieceWidth * PUZZLE_DIFFICULTY;
   puzzleHeight = pieceHeight * PUZZLE_DIFFICULTY;
   setCanvas();

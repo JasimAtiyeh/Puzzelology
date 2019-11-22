@@ -114,6 +114,9 @@ body {
 
 #puzzle {
   align-self: center;
+}
+
+#canvas {
   z-index: 0;
 }
 
@@ -133,6 +136,7 @@ body {
   flex-direction: column;
   background-color: rgba(155, 155, 155, 0.7);
   padding: 85px;
+  z-index: 10000;
 }
 
 #mute {
