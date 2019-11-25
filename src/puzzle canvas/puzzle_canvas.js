@@ -108,7 +108,20 @@ const shufflePuzzle = () => {
     for (var j, x, i = pieces.length; i; j = parseInt(Math.random() * i), x = pieces[--i], pieces[i] = pieces[j], pieces[j] = x);
     return pieces;
   }
+  countTime();
 };
+
+const countTime = () => {
+  const clock = document.getElementById('clock');
+  clock.classList.remove('hidden');
+
+  let time = 0;
+  setTimeout(() => {
+    time += 1;
+    console.log(time);
+    clock.innerHTML = time;
+  }, 1000);
+}
 
 const onPuzzleClick = e => {
   if (e.clientX || e.clientY === 0) {

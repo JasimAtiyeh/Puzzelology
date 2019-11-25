@@ -8,7 +8,6 @@ export const init = () => (
     const puzzle = document.getElementById('puzzle');
     const settings = document.getElementById('settings');
     const settingsMenu = document.getElementById('settings-menu');
-    const clock = document.getElementById('clock');
 
     imageSelector.classList.add('hidden');
     puzzle.classList.add('hidden');
@@ -21,12 +20,6 @@ export const init = () => (
       puzzle,
       imageSelector
     ));
-
-    let time;
-    setTimeout(() => {
-      time += 1;
-      clock.innerHTML = time;
-    }, 1000);
   })
 );
 
