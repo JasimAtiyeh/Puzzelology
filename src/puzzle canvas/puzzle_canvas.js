@@ -115,13 +115,19 @@ const countTime = () => {
   const clock = document.getElementById('clock');
   clock.classList.remove('hidden');
 
-  let time = 0;
+  let seconds = 0;
+  let minutes = 0;
   setTimeout(() => {
-    time += 1;
-    console.log(time);
+    seconds += 1;
+    if (seconds > 59) {
+      seconds = 0;
+      minutes += 1;
+    }
+    console.log(seconds);
+    let time = `${minutes}:${seconds}`
     clock.innerHTML = time;
   }, 1000);
-}
+};
 
 const onPuzzleClick = e => {
   if (e.clientX || e.clientY === 0) {
