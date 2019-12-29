@@ -4,7 +4,8 @@ export const toggleSettingsMenu = (
   settingsMenu,
   titleBanner,
   puzzle,
-  imageSelector
+  imageSelector,
+  music
   ) => {
   settingsMenu.classList.toggle('hidden');
   let mute = document.getElementById('mute');
@@ -12,32 +13,33 @@ export const toggleSettingsMenu = (
   let setDifficulty = document.getElementById('set-difficulty-button');
   let selectImage = document.getElementById('select-image');
   let restartPuzzle = document.getElementById('restart-puzzle');
-  let audio = document.getElementById('audio');
+  const description = document.getElementById('description');
 
   notMute.addEventListener('click', () => {
-    audio.muted = true;
+    music.pause();
     notMute.classList.add('hidden');
     mute.classList.remove('hidden');
   });
 
   mute.addEventListener('click', () => {
-    audio.muted = false;
+    music.play();
     notMute.classList.remove('hidden');
     mute.classList.add('hidden');
   });
 
   setDifficulty.addEventListener('click', () => {
+    description.classList.remove('hidden');
     titleBanner.classList.remove('hidden');
     puzzle.classList.add('hidden');
     settingsMenu.classList.add('hidden');
-    audio.muted = true;
+    music.stop();
   });
   
   selectImage.addEventListener('click', () => {
     imageSelector.classList.remove('hidden');
     puzzle.classList.add('hidden');
     settingsMenu.classList.add('hidden');
-    audio.muted = true;
+    music.stop();
   });
   
   restartPuzzle.addEventListener('click', () => {

@@ -1,25 +1,33 @@
 import { puzzleCanvas } from '..//puzzle canvas/puzzle_canvas';
 
-export const imageSelection = (titleBanner, imageSelector, puzzle, difficulty) => {
+export const imageSelection = (titleBanner, imageSelector, puzzle, music) => {
   let images = Object.values(Images);
   let imageSelection = document.getElementById('selection-screen-image-selection');
   let setDifficulty = document.getElementById('set-difficulty');
   let uploadImage = document.getElementById('upload-image-input');
+  const description = document.getElementById('description');
 
+  
+  while (imageSelection.firstChild) {
+    imageSelection.removeChild(imageSelection.firstChild);
+  }
+  
   images.map(imageLink => {
     let image = document.createElement('img');
     image.setAttribute('src', imageLink);
     image.setAttribute('width', '250');
     image.setAttribute('height', '200');
     image.addEventListener('click', (e) => {
+      let difficulty = localStorage.getItem("difficulty");
       imageSelector.classList.add('hidden');
       puzzle.classList.remove('hidden');
-      puzzleCanvas(difficulty, e.target.src);
+      puzzleCanvas(difficulty, e.target.src, music);
     });
     imageSelection.appendChild(image);
   });
   
   setDifficulty.addEventListener('click', () => {
+    description.classList.remove('hidden');
     titleBanner.classList.remove('hidden');
     imageSelector.classList.add('hidden');
   });
@@ -34,7 +42,7 @@ export const imageSelection = (titleBanner, imageSelector, puzzle, difficulty) =
   });
 };
 
-export const Images = {
+const Images = {
   image1: 'https://puzzleology.s3.us-east-2.amazonaws.com/111919_Events-900x600.jpg',
   image2: 'https://puzzleology.s3.us-east-2.amazonaws.com/5718269042_8b2181bed8_o-900x600.png',
   image3: 'https://puzzleology.s3.us-east-2.amazonaws.com/A2_SigmaPhiEpsilon-900x600.jpg',
@@ -46,16 +54,3 @@ export const Images = {
   image9: 'https://puzzleology.s3.us-east-2.amazonaws.com/march_moon.900x600.jpg',
   image10: 'https://puzzleology.s3.us-east-2.amazonaws.com/spice-of-life-900x600.jpg'
 };
-
-// export const Images = {
-//   image1: './assets/images/111919_Events-900x600.jpg',
-//   image2: './assets/images/5718269042_8b2181bed8_o-900x600.png',
-//   image3: './assets/images/A2_SigmaPhiEpsilon-900x600.jpg',
-//   image4: './assets/images/bahia-de-las-aguilas-pedernales-900x600.jpg',
-//   image5: './assets/images/heidi-kaden-n7NwHLauoJ0-unsplash-900x600.jpg',
-//   image6: './assets/images/KIlworth-House-Hotel_0003-3-900x600.jpeg',
-//   image7: './assets/images/KIlworth-House-Hotel_0003-3-900x600.jpg',
-//   image8: './assets/images/march_moon.900x600.jpg',
-//   image9: './assets/images/spice-of-life-900x600.jpg',
-//   image10: './assets/images/Wayne_campus_scienglib_900x600.jpg'
-// };

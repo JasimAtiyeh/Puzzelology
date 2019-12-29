@@ -8,17 +8,21 @@ export const init = () => (
     const puzzle = document.getElementById('puzzle');
     const settings = document.getElementById('settings');
     const settingsMenu = document.getElementById('settings-menu');
+    const music = new Howl({
+      src: '../../assets/audio_track.mp3'
+    });
 
     imageSelector.classList.add('hidden');
     puzzle.classList.add('hidden');
     settingsMenu.classList.add('hidden');
 
-    banner(titleBanner, imageSelector, puzzle);
+    banner(titleBanner, imageSelector, puzzle, music);
     settings.addEventListener('click', () => toggleSettingsMenu(
       settingsMenu,
       titleBanner,
       puzzle,
-      imageSelector
+      imageSelector,
+      music
     ));
   })
 );

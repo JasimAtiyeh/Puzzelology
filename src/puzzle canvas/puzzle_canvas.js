@@ -1,4 +1,5 @@
 import { init } from "../..";
+import {Howl, Howler} from 'howler';
 
 let PUZZLE_DIFFICULTY;
 let PUZZLE_HOVER_TINT = '#009900';
@@ -14,9 +15,10 @@ let currentPiece;
 let currentDropPiece;
 let mouse;
 
-export const puzzleCanvas = (difficulty, imageSrc) => {
-  let audio = document.getElementById('audio');
-  audio.muted = false;
+export const puzzleCanvas = (difficulty, imageSrc, music) => {
+  music.play();
+  // let audio = document.getElementById('audio');
+  // audio.muted = false;
   img = new Image();
   img.addEventListener('load', onImage, false);
   img.setAttribute('width', '900');
@@ -108,26 +110,26 @@ const shufflePuzzle = () => {
     for (var j, x, i = pieces.length; i; j = parseInt(Math.random() * i), x = pieces[--i], pieces[i] = pieces[j], pieces[j] = x);
     return pieces;
   }
-  countTime();
+  // countTime();
 };
 
-const countTime = () => {
-  const clock = document.getElementById('clock');
-  clock.classList.remove('hidden');
+// const countTime = () => {
+//   const clock = document.getElementById('clock');
+//   clock.classList.remove('hidden');
 
-  let seconds = 0;
-  let minutes = 0;
-  setTimeout(() => {
-    seconds += 1;
-    if (seconds > 59) {
-      seconds = 0;
-      minutes += 1;
-    }
-    console.log(seconds);
-    let time = `${minutes}:${seconds}`
-    clock.innerHTML = time;
-  }, 1000);
-};
+//   let seconds = 0;
+//   let minutes = 0;
+//   setTimeout(() => {
+//     seconds += 1;
+//     if (seconds > 59) {
+//       seconds = 0;
+//       minutes += 1;
+//     }
+//     console.log(seconds);
+//     let time = `${minutes}:${seconds}`
+//     clock.innerHTML = time;
+//   }, 1000);
+// };
 
 const onPuzzleClick = e => {
   if (e.clientX || e.clientY === 0) {
