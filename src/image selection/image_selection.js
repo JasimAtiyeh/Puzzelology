@@ -35,10 +35,11 @@ export const imageSelection = (titleBanner, imageSelector, puzzle, music) => {
   uploadImage.addEventListener('change', (e) => {
     const input = e.target;
     let src = window.URL.createObjectURL(input.files[0]);
+    let difficulty = localStorage.getItem("difficulty");
 
     imageSelector.classList.add('hidden');
     puzzle.classList.remove('hidden');
-    puzzleCanvas(difficulty, src);
+    puzzleCanvas(difficulty, src, music);
   });
 };
 

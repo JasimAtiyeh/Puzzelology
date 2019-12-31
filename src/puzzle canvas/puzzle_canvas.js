@@ -17,8 +17,7 @@ let mouse;
 
 export const puzzleCanvas = (difficulty, imageSrc, music) => {
   music.play();
-  // let audio = document.getElementById('audio');
-  // audio.muted = false;
+  music.loop();
   img = new Image();
   img.addEventListener('load', onImage, false);
   img.setAttribute('width', '900');

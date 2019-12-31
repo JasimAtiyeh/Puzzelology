@@ -9,7 +9,8 @@ export const init = () => (
     const settings = document.getElementById('settings');
     const settingsMenu = document.getElementById('settings-menu');
     const music = new Howl({
-      src: '../../assets/audio_track.mp3'
+      src: '../../assets/audio_track.mp3',
+      loop: true
     });
 
     imageSelector.classList.add('hidden');

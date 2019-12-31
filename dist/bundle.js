@@ -109,7 +109,8 @@ const init = () => (
     const settings = document.getElementById('settings');
     const settingsMenu = document.getElementById('settings-menu');
     const music = new Howl({
-      src: '../../assets/audio_track.mp3'
+      src: '../../assets/audio_track.mp3',
+      loop: true
     });
 
     imageSelector.classList.add('hidden');
@@ -3379,10 +3380,11 @@ const imageSelection = (titleBanner, imageSelector, puzzle, music) => {
   uploadImage.addEventListener('change', (e) => {
     const input = e.target;
     let src = window.URL.createObjectURL(input.files[0]);
+    let difficulty = localStorage.getItem("difficulty");
 
     imageSelector.classList.add('hidden');
     puzzle.classList.remove('hidden');
-    Object(_puzzle_canvas_puzzle_canvas__WEBPACK_IMPORTED_MODULE_0__["puzzleCanvas"])(difficulty, src);
+    Object(_puzzle_canvas_puzzle_canvas__WEBPACK_IMPORTED_MODULE_0__["puzzleCanvas"])(difficulty, src, music);
   });
 };
 
@@ -3434,8 +3436,7 @@ let mouse;
 
 const puzzleCanvas = (difficulty, imageSrc, music) => {
   music.play();
-  // let audio = document.getElementById('audio');
-  // audio.muted = false;
+  music.loop();
   img = new Image();
   img.addEventListener('load', onImage, false);
   img.setAttribute('width', '900');
