@@ -109,7 +109,7 @@ const init = () => (
     const settings = document.getElementById('settings');
     const settingsMenu = document.getElementById('settings-menu');
     const music = new Howl({
-      src: '../../assets/audio_track.mp3',
+      src: 'https://puzzleology.s3.us-east-2.amazonaws.com/audio_track.mp3',
       loop: true
     });
 
