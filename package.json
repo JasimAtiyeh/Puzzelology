@@ -18,13 +18,13 @@
   },
   "homepage": "https://github.com/JasimAtiyeh/Puzzelology#readme",
   "dependencies": {
-    "howler": "^2.1.3",
-    "sass": "^1.23.7",
+    "howler": "^2.2.3",
+    "sass": "^1.35.2",
     "scss": "^0.2.4",
-    "serialize-javascript": "^2.1.2",
-    "webpack": "^4.41.2"
+    "serialize-javascript": "^6.0.0",
+    "webpack": "^4.46.0"
   },
   "devDependencies": {
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^3.3.12"
   }
 }
